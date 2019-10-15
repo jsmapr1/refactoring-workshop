@@ -36,5 +36,15 @@ const {
 
 describe('init', () => {
   it('should sort options by type and create array of pairs', async () => {
+    const results = await init();
+
+    const expected = [
+      ['vegetables', [onion, greenPeppers]],
+      ['cheese', [mozarella]],
+      ['crust', [thin]],
+      ['rare', [dodo]],
+    ];
+
+    expect(results).toEqual(expected);
   });
 });
