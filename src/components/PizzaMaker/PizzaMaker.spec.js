@@ -6,7 +6,6 @@ import {
 } from '@testing-library/react';
 
 import PizzaMaker from './PizzaMaker';
-jest.mock('../../api/toppings');
 
 describe('PizzaMaker', () => {
   afterEach(cleanup);

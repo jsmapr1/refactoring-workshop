@@ -1,5 +1,4 @@
 import Builder from './Builder';
-jest.mock('../../api/toppings');
 
 const onion = {
   id: 1,
