@@ -12,11 +12,10 @@ export default function Modal({ open, onClose, marketingMessage }) {
     >
       <div style={marketingMessage && marketingMessage.getModalStyle()}>
         <h1>{marketingMessage && marketingMessage.text}</h1>
-        <div
-          style={{
-          }}
-        >
-          <img src={marketingMessage && marketingMessage.image} alt="marketing" />
+        <div>
+          {marketingMessage && marketingMessage.image &&
+              <img src={marketingMessage.image} alt="marketing" />
+          }
         </div>
       </div>
     </MaterialModal>
