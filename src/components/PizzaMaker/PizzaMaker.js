@@ -9,7 +9,7 @@ export default function PizzaMaker() {
   const [options, setOptions] = useState([]);
   const [toppings, setToppings] = useState([]);
   const {
-    addTopping, displayMarketingMessage, removeTopping, reset, init,
+    addTopping, displayMarketingMessage, generateDisplayName, removeTopping, reset, init,
   } = Builder();
 
   useEffect(() => {
@@ -44,8 +44,9 @@ export default function PizzaMaker() {
   };
 
   const handleRemove = (topping) => {
-    removeTopping(topping)
-      .then(toppingsUpdate => setToppings(toppingsUpdate));
+    const toppingsList = removeTopping(topping);
+    const toppingsUpdate = generateDisplayName(toppingsList);
+    setToppings(toppingsUpdate);
   };
 
   return (

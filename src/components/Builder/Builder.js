@@ -40,16 +40,7 @@ function addTopping(callback, { name, id }) {
             text: 'This is looking complicated? Would you like to save?',
           });
         }
-        const modified = [...toppings.reduce((all, topping) => {
-          if (!all.get(topping)) {
-            all.set(topping, 1);
-            return all;
-          }
-          all.set(topping, all.get(topping) + 1);
-          return all;
-        }, new Map()),
-        ].map(([nameUpdate, count]) => `${nameUpdate} ${count === 1 ? '' : `(${count})`}`);
-        return modified;
+        return generateDisplayName(toppings);
       }
       callback({
         getModalStyle: () => {
@@ -72,34 +63,29 @@ function addTopping(callback, { name, id }) {
         },
         text: 'Topping Not Available',
       });
-      const modified = [...toppings.reduce((all, topping) => {
-        if (!all.get(topping)) {
-          all.set(topping, 1);
-          return all;
-        }
-        all.set(topping, all.get(topping) + 1);
-        return all;
-      }, new Map()),
-      ].map(([nameUpdate, count]) => `${nameUpdate} ${count === 1 ? '' : `(${count})`}`);
-      return modified;
+      return generateDisplayName(toppings);
     });
 }
 
 function removeTopping({ name }) {
   const copy = [...toppings];
   const index = copy.indexOf(name);
-  copy.splice(index);
+  copy.splice(index, 1);
   toppings = [...copy];
-  const modified = [...toppings.reduce((all, topping) => {
-    if (!all.get(topping)) {
-      all.set(topping, 1);
+  return toppings;
+}
+
+export function generateDisplayName(selected) {
+  const modified = [...selected.reduce((all, topping) => {
+      if (!all.get(topping)) {
+        all.set(topping, 1);
+        return all;
+      }
+      all.set(topping, all.get(topping) + 1);
       return all;
-    }
-    all.set(topping, all.get(topping) + 1);
-    return all;
-  }, new Map()),
+    }, new Map()),
   ].map(([nameUpdate, count]) => `${nameUpdate} ${count === 1 ? '' : `(${count})`}`);
-  return Promise.resolve(modified);
+  return modified;
 }
 
 function displayMarketingMessage(callback, config) {
@@ -150,6 +136,7 @@ export async function init() {
 export default () => ({
   addTopping,
   displayMarketingMessage,
+  generateDisplayName,
   removeTopping,
   reset,
   init,
