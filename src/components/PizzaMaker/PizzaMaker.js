@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Options from '../Options/Options';
 import Choices from '../Choices/Choices';
 import Builder from '../Builder/Builder';
+import { generateDisplayName } from '../Builder/utils';
 import Modal from '../Modal/Modal';
 
 export default function PizzaMaker() {
@@ -9,7 +10,7 @@ export default function PizzaMaker() {
   const [options, setOptions] = useState([]);
   const [toppings, setToppings] = useState([]);
   const {
-    addTopping, displayMarketingMessage, generateDisplayName, removeTopping, reset, init,
+    addTopping, displayMarketingMessage, removeTopping, reset, init,
   } = Builder();
 
   useEffect(() => {
