@@ -1,38 +1,56 @@
 import ohYeah from './images/ohyeah.gif';
 import save from './images/tobias.gif';
 import { fetchTopping, fetchToppings } from '../../api/toppings';
-import { generateDisplayName, generateModalConfig } from './utils';
+import { generateModalConfig } from './utils';
 
 let toppings = [];
-let askedSaved = false;
 
 function reset () {
   toppings = [];
-  askedSaved = false;
 }
 
-function addTopping(callback, { name, id }) {
+function setThresholdAlert(...limits) {
+  let asked = false;
+  return (arg) => {
+    if(asked) {
+      return false;
+    }
+    const reached = limits.every(limit => limit(arg));
+    if(!reached) {
+      return false;
+    }
+    asked = true;
+    return true;
+  }
+}
+
+const sendLengthAlert = setThresholdAlert(({ toppings}) => toppings.length > 3);
+
+function checkAvailability(id) {
   return fetchTopping(id)
-    .then(({ available }) => {
-      if (available) {
-        toppings = [...toppings, name];
-        if (toppings.length > 3 && !askedSaved) {
-          askedSaved = true;
-          const modalConfig = generateModalConfig({
-            image: save,
-            text: 'This is looking complicated? Would you like to save?',
-            width: 600,
-          })
-          callback(modalConfig);
-        }
-        return generateDisplayName(toppings);
-      }
-      const modalConfig = generateModalConfig({
-        text: 'Topping Not Available',
-      })
-      callback(modalConfig);
-      return generateDisplayName(toppings);
-    });
+  .then(({ available }) => available)
+}
+
+function getUnavailableMessage() {
+  return generateModalConfig({
+    text: 'Topping Not Available',
+  })
+}
+
+function addTopping(name) {
+    toppings = [...toppings, name];
+    return toppings;
+}
+
+function checkToppingLimit(toppings) {
+  if(sendLengthAlert({ toppings })) {
+    return generateModalConfig({
+      image: save,
+      text: 'This is looking complicated? Would you like to save?',
+      width: 600,
+    })
+  }
+  return null;
 }
 
 function removeTopping({ name }) {
@@ -71,7 +89,10 @@ export async function init() {
 
 export default () => ({
   addTopping,
+  checkAvailability,
+  checkToppingLimit,
   displayMarketingMessage,
+  getUnavailableMessage,
   removeTopping,
   reset,
   init,

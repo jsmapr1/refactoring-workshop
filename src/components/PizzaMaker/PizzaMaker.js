@@ -10,7 +10,14 @@ export default function PizzaMaker() {
   const [options, setOptions] = useState([]);
   const [toppings, setToppings] = useState([]);
   const {
-    addTopping, displayMarketingMessage, removeTopping, reset, init,
+    addTopping,
+    checkAvailability,
+    checkToppingLimit,
+    displayMarketingMessage,
+    getUnavailableMessage,
+    removeTopping,
+    reset,
+    init,
   } = Builder();
 
   useEffect(() => {
@@ -39,9 +46,21 @@ export default function PizzaMaker() {
     fetch();
   }, [init]);
 
-  const update = (topping) => {
-    addTopping(setMarketingMessage, topping)
-      .then(toppingsUpdate => setToppings(toppingsUpdate));
+  const update = async (topping) => {
+    const isAvailable = await checkAvailability(topping.id);
+    if(!isAvailable) {
+      setMarketingMessage(getUnavailableMessage());
+      return;
+    }
+
+    const toppings = addTopping(topping.name);
+    const marketingMessage = checkToppingLimit(toppings)
+    if(marketingMessage) {
+      setMarketingMessage(marketingMessage);
+    }
+
+    const toppingsUpdate = generateDisplayName(toppings);
+    setToppings(toppingsUpdate);
   };
 
   const handleRemove = (topping) => {
