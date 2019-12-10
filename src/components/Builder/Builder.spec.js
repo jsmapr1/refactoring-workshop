@@ -34,6 +34,7 @@ const {
   init,
 } = Builder();
 
+jest.mock('../../api/toppings');
 describe('init', () => {
   it('should sort options by type and create array of pairs', async () => {
     const results = await init();
