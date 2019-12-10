@@ -9,6 +9,7 @@ import PizzaMaker from './PizzaMaker';
 
 describe('PizzaMaker', () => {
   afterEach(cleanup);
+  // Check for text in the render method
   it('should render options column and order column', async () => {
   });
 
