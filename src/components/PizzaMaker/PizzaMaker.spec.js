@@ -9,25 +9,36 @@ import PizzaMaker from './PizzaMaker';
 
 describe('PizzaMaker', () => {
   afterEach(cleanup);
-  // Check for text in the render method
+
+  /*
+   * Wait for elements to load
+   * Check for column headers
+   */
   it('should render options column and order column', async () => {
   });
 
-  it('should add item to Custom Order Column', async () => {
-  });
-
+  /*
+   * Wait for elements to load
+   * Capture the onion button
+   * Click onion button twice
+   * Check for two onions in
+   * the order: onion (2)
+   */
   it('should add multiple items', async () => {
   })
 
-  it('should remove item from column', async () => {
-  })
-
+  /*
+   * Wait for the marketing text:
+   * 'Dude, you rock so hard'
+   */
   it('should show marketing modal', async () => {
   })
 
+  /*
+   * Wait for elements to load.
+   * Click dodo egg.
+   * Await for text: 'Topping Not Available'
+   */
   it('should show unavailable modal', async () => {
-  })
-
-  it('should show save modal', async () => {
   })
 });
