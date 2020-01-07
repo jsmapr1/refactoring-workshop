@@ -14,6 +14,7 @@
     "typescript": "^3.4.4"
   },
   "scripts": {
+    "api": "npx json-server --watch db.json --port 3009 --middlewares ./mock/available.js",
     "test:coverage": "npm test -- --coverage --coverageReporters=html --watchAll=false && open coverage/index.html",
     "lint": "npx eslint ./",
     "start": "react-scripts start",
